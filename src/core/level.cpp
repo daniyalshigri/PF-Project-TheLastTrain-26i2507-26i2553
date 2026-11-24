@@ -286,6 +286,68 @@ bool loadBuildingMap(const char* filename,
                                     cout<<"Map Could not Load";
                                     return false;
                                 }
-                                cout<<mapLines[2];
+
+                                for(int flor_n=1; flor_n<=NUM_FLOORS; flor_n++)
+                                {
+                                    int row=(3+3*(NUM_FLOORS-flor_n))-1;
+                                    for(int gap_n=1;gap_n<=ROOMS_PER_FLOOR-1; gap_n++)
+                                    {  
+                                        int column=12*(gap_n-1)+20;
+                                       
+                                      horizontalConn[flor_n-1][gap_n-1]=mapLines[row][column];
+                                    }
+                                }
+                                 
+                                //slot empty
+                                for(int flor_n=1; flor_n<=NUM_FLOORS; flor_n++)
+                                {
+                        
+                
+                                    for(int room=1;room<=ROOMS_PER_FLOOR; room++)
+                                      {  
+                                    
+                                        entityCounts[flor_n-1][room-1]=0;
+                                        for(int slot = 0; slot<MAX_ENTITIES_PER_ROOM;slot++)
+                                        {
+                                        
+                                          roomEntities[flor_n-1][room-1][slot]= ENT_NONE;
+                                        }
+
+                                      }
+                                       
+                                }
+                                    //Slot fill
+                                  for(int flor_n=1; flor_n<=NUM_FLOORS; flor_n++)
+                                {
+                                    int itemrow =(3+3*(NUM_FLOORS-flor_n))-1+1;
+                
+                                    for(int room=1;room<=ROOMS_PER_FLOOR; room++)
+                                    {  
+                                        int startCol=9 + 12*(room - 1);
+                                        
+                                        for(int col = startCol; col<=startCol+10;col++)
+                                        {
+                                        char c=mapLines[itemrow][col];
+                                        if(c!=' ')
+                                        {
+                                          if(entityCounts[flor_n-1][room-1]<MAX_ENTITIES_PER_ROOM)
+                                          {
+                                             int slot =entityCounts[flor_n-1][room-1];
+                                          roomEntities[flor_n-1][room-1][slot]= c;
+                                          entityCounts[flor_n-1][room-1]=slot+1;
+                                          }
+                                          
+                                         
+                                        }
+
+                                        }
+                                       
+                                    }
+                                    
+                                }
+                                
+                                
+
+                              file.close();
                                 return true;
                     }
