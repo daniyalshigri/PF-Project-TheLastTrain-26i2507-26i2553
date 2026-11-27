@@ -77,6 +77,11 @@ bool isDirectlyConnected(int fromF, int fromR, int toF, int toR,
                          const char horizontalConn[NUM_FLOORS][ROOMS_PER_FLOOR - 1],
                          char& outConnType)
                          {
+                            if(fromF<1|| fromF>NUM_FLOORS || toF<1 ||toF>NUM_FLOORS ||fromR<1 ||
+                            fromR>ROOMS_PER_FLOOR || toR<1||toR>ROOMS_PER_FLOOR)
+                            {
+                                return false;
+                            }
 
                             //Same Floor Neighbour
                             int gap;
